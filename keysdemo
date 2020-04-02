@@ -1,0 +1,28 @@
+#some api keys for demo purposes.
+#these keys may and will stop working at any time.
+#source this file from your shell to use with scripts.
+#https://github.com/mountaineerbr/markets
+
+#please create your own api keys!
+
+#alpha avantage
+export ALPHAAPIKEY='DQZV46FOXV9JN64H'
+
+#coin market cap
+export CMCAPIKEY='30394e61-6fdf-4552-8f95-7e228b598f98'
+
+#coinLib.io
+export CLIBAPIKEY='dd2b4462bbd6dad0'
+
+#hg brasil
+export HGBAPIKEY='f2e2b379'
+
+#open exchange rates
+export OPENXAPPID='ab605d846f3f40fabd4db64bf2258519'
+
+#currency layer
+export CLAYAPIKEY='35324a150b81290d9fb15e434ed3d264'
+
+#whale alert
+export WALERTAPIKEY='0iritsuoJcKFzTQ5hf26fg0ch7vpbBQ7'
+
