@@ -1,6 +1,6 @@
 #!/bin/bash
 # Brasilbtc.sh -- Puxa Taxas de Bitcoin de Exchanges do Brasil
-# v0.5.3  apr/2020  by mountaineerbr
+# v0.5.4  apr/2020  by mountaineerbr
 
 #defaults
 
@@ -90,7 +90,7 @@ OPÇÕES
 		-m 	Média e estatísticas básicas das cotações puxadas dire-
 			tamente das apis.
 
-		-mm 	Igual opção '-mm' mas somente o valor da média.
+		-mm 	Como opção '-m', porém somente o valor da média.
 
 		-v 	Mostra versão deste programa."
 
