@@ -617,31 +617,31 @@ rate() {
 #fun with <datahub.io>
 #time series
 
+#gold monthly
+gold() { curl -sL 'https://datahub.io/core/gold-prices/r/1.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 #gold annual
 golda() { curl -sL 'https://datahub.io/core/gold-prices/r/0.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
-#gold monthly
-goldm() { curl -sL 'https://datahub.io/core/gold-prices/r/1.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 
 #oil daily brent 
-oild() { curl -sL 'https://datahub.io/core/oil-prices/r/0.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
+brent() { curl -sL 'https://datahub.io/core/oil-prices/r/0.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 #oil weekly brent 
-oilw() { curl -sL 'https://datahub.io/core/oil-prices/r/1.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
+brentw() { curl -sL 'https://datahub.io/core/oil-prices/r/1.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 #oil monthly brent 
-oilm() { curl -sL 'https://datahub.io/core/oil-prices/r/2.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
+brentm() { curl -sL 'https://datahub.io/core/oil-prices/r/2.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 #oil annual brent 
-oila() { curl -sL 'https://datahub.io/core/oil-prices/r/3.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
+brenta() { curl -sL 'https://datahub.io/core/oil-prices/r/3.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 
 #oil daily wti 
-oild2() { curl -sL 'https://datahub.io/core/oil-prices/r/4.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
+wti() { curl -sL 'https://datahub.io/core/oil-prices/r/4.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 #oil weekly wti 
-oilw2() { curl -sL 'https://datahub.io/core/oil-prices/r/5.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
+wtiw() { curl -sL 'https://datahub.io/core/oil-prices/r/5.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 #oil monthly wti 
-oilm2() { curl -sL 'https://datahub.io/core/oil-prices/r/6.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
+wtim() { curl -sL 'https://datahub.io/core/oil-prices/r/6.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 #oil annual wti 
-oila2() { curl -sL 'https://datahub.io/core/oil-prices/r/7.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
+wtia() { curl -sL 'https://datahub.io/core/oil-prices/r/7.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 
 #gas monthly
-gasm() { curl -sL 'https://datahub.io/core/natural-gas/r/1.json' | jq -r '.[]|"\(.Month)\t\(.Price)"';}
+gas() { curl -sL 'https://datahub.io/core/natural-gas/r/1.json' | jq -r '.[]|"\(.Month)\t\(.Price)"';}
 #gas daily
 gasd() { curl -sL 'https://datahub.io/core/natural-gas/r/0.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 
