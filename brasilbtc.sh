@@ -1,10 +1,8 @@
 #!/bin/bash
 # Brasilbtc.sh -- Puxa Taxas de Bitcoin de Exchanges do Brasil
-# v0.5.1  feb/2020  by mountaineerbr
+# v0.5.3  apr/2020  by mountaineerbr
 
 #defaults
-
-#curl/wget -- set defaults only if empty
 
 #retries in case of temporary failures
 RETRIES=2
@@ -13,7 +11,8 @@ RETRIES=2
 TIMEOUT=8
 
 #user agent
-UAG='User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.106 Safari/537.36'
+#UAG='User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.106 Safari/537.36'
+UAG='user-agent: Mozilla/5.0 Gecko'
 
 export LC_NUMERIC=en_US.UTF-8
 
@@ -103,8 +102,8 @@ apiratesf() {
 	#((${RATE//.}>0)) && printf "%'.2f\t3xBIT\n" "${RATE}"
 	#https://github.com/3xbit/docs/blob/master/exchange/public-rest-api-en_us.md
 	
-	## AtlasQuantum
-	[[ "${1^^}" = "BTC" ]] && printf "%'.2f\tAtlasQuantum\n" "$("${YOURAPP[@]}" 'https://19py4colq0.execute-api.us-west-2.amazonaws.com/prod/price' | jq -r '.last')"
+	## AtlasQuantum -- api returns Forbidden message
+	#[[ "${1^^}" = "BTC" ]] && printf "%'.2f\tAtlasQuantum\n" "$("${YOURAPP[@]}" 'https://19py4colq0.execute-api.us-west-2.amazonaws.com/prod/price' | jq -r '.last')"
 	#https://atlasquantum.com/
 	
 	## BitBlue
@@ -118,10 +117,10 @@ apiratesf() {
 	#https://bitcambiohelp.zendesk.com/hc/pt-br/articles/360006575172-Documenta%C3%A7%C3%A3o-para-API
 	#https://blinktrade.com/docs/?shell#ticker
 	
-	## BitcoinToYou
-	[[ "${1,,}" = "ltc" ]] && BTYN="_litecoin"
-	[[ "${1,,}" = "btc" ]] || [[ "${1,,}" = "ltc" ]] &&
-		RATE="$("${YOURAPP[@]}" "https://api_v1.bitcointoyou.com/ticker${BTYN}.aspx" | jq -r '.last')"
+	## BitcoinToYou -- litecoin does not work anymore
+	#[[ "${1,,}" = "ltc" ]] && BTYN="_litecoin"
+	[[ "${1,,}" = "btc" ]] &&
+		RATE="$("${YOURAPP[@]}" "https://api_v1.bitcointoyou.com/ticker${BTYN}.aspx" | jq -r '((.buy|tonumber)+(.sell|tonumber))/2')"
 	((${RATE//.}>0)) && printf "%'.2f\tBitcoinToYou\n" "${RATE}"
 	#https://www.bitcointoyou.com/blog/api-b2u/
 	
@@ -215,9 +214,9 @@ apiratesf() {
 	#((${RATE//.}>0)) && printf "%'.2f\tTEMBTC\n" "${RATE}"
 	#https://www.tembtc.com.br/api
 	
-	## OmniTrade
-	RATE="$("${YOURAPP[@]}" "https://omnitrade.io/api/v2/tickers/${1,,}brl" | jq -r '.ticker.last')"
-	((${RATE//.}>0)) && printf "%'.2f\tOmniTrade\n" "${RATE}"
+	## OmniTrade -- closed
+	#RATE="$("${YOURAPP[@]}" "https://omnitrade.io/api/v2/tickers/${1,,}brl" | jq -r '.ticker.last')"
+	#((${RATE//.}>0)) && printf "%'.2f\tOmniTrade\n" "${RATE}"
 	#https://help.omnitrade.io/pt-BR/articles/1572451-apis-como-integrar-seu-sistema
 
 	## Pagcripto
