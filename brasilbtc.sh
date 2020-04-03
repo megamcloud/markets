@@ -1,6 +1,6 @@
 #!/bin/bash
 # Brasilbtc.sh -- Puxa Taxas de Bitcoin de Exchanges do Brasil
-# v0.5.4  apr/2020  by mountaineerbr
+# v0.5.5  apr/2020  by mountaineerbr
 
 #defaults
 
@@ -306,7 +306,8 @@ bitversof() {
 cointf() {
 	#check which app
 	[[ "${YOURAPP[0]}" = curl ]] && HEADER=(-H) || HEADER=(--header=)
-	"${YOURAPP[@]}" "${HEADER[@]}${UAG}" 'https://www.cointradermonitor.com/preco-bitcoin-brasil' | sed -e 's/[><]/ & /g' -e 's/<[^>]*>//g' | sed -n '/Exchange\s*Preço/,+34p' | sed -Ee 's/([a-z])\s*([A-Z])/\1\2/' -e 's/^\s+//g' -e 's/\s+/\t/g' -e 1d | column -et -NRNK,AGÊNCIA,PREÇO,VOL,MS
+	"${YOURAPP[@]}" "${HEADER[@]}${UAG}" 'https://www.cointradermonitor.com/preco-bitcoin-brasil' | 
+		sed -e 's/[><]/ & /g' -e 's/<[^>]*>//g' -ne '/Exchange\s*Preço/,+35p' | sed -Ee 's/([a-zA-Z]+)\s*([A-Z])/\1\2/' -e 1d | column -et -NRNK,AGÊNCIA,PREÇO,VOL,MS
 }
 #https://www.cointradermonitor.com/preco-bitcoin-brasil
 
