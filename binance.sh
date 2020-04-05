@@ -1,6 +1,6 @@
 #!/bin/bash
 # Binance.sh  --  Market rates from Binance public APIs
-# v0.9.15  mar/2020  by mountaineerbr
+# v0.9.16  apr/2020  by mountaineerbr
 
 #defaults
 
@@ -57,7 +57,7 @@ SYNOPSIS
 
 	It is also possible to add a 'thousands' separator using '-ff', see usage
 	example (5). Option '-f' also accepts a printf-like formatting string
-	(defaults='%s').
+	(defaults='%s'). Maximum precision is 16 decimal plates.
 
 	Some functions use curl/wget to fetch data from REST APIs and some use 
 	the websocat package to fetch data from websockets. If no market is gi-
@@ -94,11 +94,6 @@ BUGS
 	Beware of unlimited scrollback buffers for terminal emulators. As lots
 	of data is printed, scrollback buffers should be kept small or complete-
 	ly unset in order to avoid system freezes.
-
-	If a division operation is given in AMOUNT, such as '1/3 BTCUSDT', bash
-	calculator will use its math library and set scale to 20 decimal plates,
-	plus one uncertainty digit. in such case, use option '-f' to set scale 
-	adequately.
 
 
 USAGE EXAMPLES
@@ -169,11 +164,12 @@ OPTIONS
 
 	-f  [NUM|STR]
 		   Number of decimal plates 'NUM' or printf-like formatting of
-		   prices 'STR'; for use with options '-csw'; defaults=%s (same
-		   as received).
+		   prices 'STR'; for use with options '-csw'; maximum precision
+		   is 16 decimal plates; defaults=%s (same as received).
 	
 	-ff [NUM]  
-		   Number of decimal plates and adds a thousands separator.
+		   Add a thousands separator and optinally also set decimal 
+		   plate number.
 
 	-h 	   Show this help.
 
