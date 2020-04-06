@@ -74,7 +74,7 @@ A maioria desses scripts de bash precisam do 'curl'. Alguns irão funcionar se v
 
 <b>uol.sh --</b> Fetches rates from uol service provider public api. Puxa dados de páginas da api pública do uol economia.
 
-<b>whalealert.sh --</b> free api key, latest whale transactions from <whale-alert.io>.
+<b>whalealert.sh --</b> free api key, latest whale transactions from <whale-alert.io>; this is such a bad api, very limited, not even worth having written a script for this..
 
 <b>yahooscrape.sh --</b> scrape some yahoo! finance tickers.
 
