@@ -1,6 +1,6 @@
 #!/bin/bash
 # binfo.sh -- bitcoin blockchain explorer for bash
-# v0.7.11  feb/2020  by mountaineerbr
+# v0.7.12  apr/2020  by mountaineerbr
 
 #defaults
 
@@ -251,12 +251,12 @@ blkinfof() {
 	jq -r '"Time___: \((.timestamp/1000)|strflocaltime("%Y-%m-%dT%H:%M:%S%Z"))",
 		"",
 		"Blockchain",
-		"TtMined: \(.totalbc/100000000) BTC",
 		"Height_: \(.n_blocks_total) blocks",
-		"Diff___: \(.difficulty)",
 		"HxRate_: \(.hash_rate) GH/s",
 		"         \(.hash_rate/1000000000) EH/s",
+		"Diff___: \(.difficulty)",
 		"Diff/HR: \(.difficulty/.hash_rate)",
+		"TtMined: \(.totalbc/100000000) BTC",
 		"",
 		"Rolling 24H Ticker",
 		"BlkTime: \(.minutes_between_blocks) min",
@@ -316,12 +316,12 @@ chairblkinfof() {
 		"",
 		"Blockchain",
 		(.data|
+			"Nodes__: \(.nodes)\tBlocks: \(.blocks)",
 			"Size___: \(.blockchain_size) bytes",
 			"         \(.blockchain_size/1000000000) GB",
+			"Diff___: \(.difficulty)",
 			"HxRate_: \(.hashrate_24h) H/s",
 			"         \(.hashrate_24h|tonumber/1000000000000000000) EH/s",
-			"Nodes__: \(.nodes)\tBlocks: \(.blocks)",
-			"Diff___: \(.difficulty)",
 			"TxCount: \(.transactions)",
 			"OutTxs_: \(.outputs)",
 			"Supply_: \(.circulation) sat",
