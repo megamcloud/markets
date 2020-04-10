@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# v0.1.15 feb/2020  by castaway
+# v0.1.16 apr/2020  by castaway
 
 HELP="WARRANTY
 	Licensed under the GNU Public License v3 or better and is distributed 
@@ -16,10 +16,12 @@ SINOPSIS
 
 	bakkt.sh [-hv]
 
-
 	Bakkt price ticker and contract volume from <https://www.bakkt.com/> 
-	at the terminal. The default option is to get intraday/last weekday 
-	prices and volume.
+	at the terminal. The default option lists ICE Bakkt Bitcoin (USD) Month-
+	ly Futures.
+
+	Option '-t' for time series of contract price. Change range with arg-
+	uments 1-3. The list is tab-separated.
 
 	Market data delayed a minimum of 15 minutes. 
 
@@ -31,11 +33,13 @@ OPTIONS
 
 	-h 	Show this help.
 
-	-v 	Print this script version.
-	"
+	-t 	Time series, contract price; select time range with
+		argument 1-3; defaults=3.
+
+	-v 	Print this script version."
 
 # Parse options
-while getopts ":jhv" opt; do
+while getopts ":jhtv" opt; do
 	case ${opt} in
 		j ) # Print JSON
 			PJSON=1
@@ -44,6 +48,9 @@ while getopts ":jhv" opt; do
 	      		echo -e "${HELP}"
 	      		exit 0
 	      		;;
+		t ) #time series
+			tsopt=1
+			;;
 		v ) # Version of Script
 	      		grep -m1 '# v' "${0}"
 	      		exit 0
@@ -59,6 +66,9 @@ shift $((OPTIND -1))
 #Check for JQ
 if ! command -v jq &>/dev/null; then
 	printf "JQ is required.\n" 1>&2
+	exit 1
+elif ! command -v xargs &>/dev/null; then
+	printf "Xargs is required.\n" 1>&2
 	exit 1
 fi
 
@@ -77,10 +87,28 @@ if ! command -v gzip &>/dev/null; then
 	printf 'warning: gzip may be required\n' 1>&2
 fi
 
-#Some defaults
-CONTRACTURL="https://www.bakkt.com/api/bakkt/marketdata/contractslist/product/23808/hub/26066"
+
+if [[ -n "$tsopt" ]]; then
+	[[ ! "$1" =~ ^[0-4]+$ ]] && set -- 3 && echo 'set to default opt 3' 1>&2
+
+	#time series Contracts opt -- Default option
+	CONTRACTURL="https://www.theice.com/marketdata/DelayedMarkets.shtml?getHistoricalChartDataAsJson=&marketId=6137574&historicalSpan=$1"
+	DATA0="$(${YOURAPP} "${CONTRACTURL}")"
+	# Print JSON?
+	if [[ -n ${PJSON} ]]; then
+		printf "%s\n" "${DATA0}"
+		exit
+	fi
+
+	printf "Bakkt Contract List\n"
+	jq -r '.bars[]|reverse|@tsv' <<< "${DATA0}" |
+		tee >(wc -l | xargs echo Entries:)
+	exit
+fi
+
 
 # Contracts opt -- Default option
+CONTRACTURL='https://www.theice.com/marketdata/DelayedMarkets.shtml?getContractsAsJson=&productId=23808&hubId=26066' 
 DATA0="$(${YOURAPP} "${CONTRACTURL}")"
 
 # Print JSON?
@@ -98,8 +126,4 @@ jq -r 'reverse[]|"",
 	"LastPrice: \(.lastPrice // empty)",
 	"Change(%): \(.change // empty)",
 	"Volume___: \(.volume // empty)"' <<< "${DATA0}"
-
-exit
-
-# Dead code
 
