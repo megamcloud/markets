@@ -1,6 +1,6 @@
 #!/bin/bash
 # Brasilbtc.sh -- Puxa Taxas de Bitcoin de Exchanges do Brasil
-# v0.6.1  apr/2020  by mountaineerbr
+# v0.6.3  apr/2020  by mountaineerbr
 
 #defaults
 
@@ -305,7 +305,11 @@ getmediaf() {
 	# Get API rates
 	RESULTS="$(apiratesf "${1}" 2>/dev/null | tr -d ',')"
 	N="$(grep -cE "^[0-9]+" <<< "${RESULTS}")"
-	printf '%s' "$RESULTS" >test
+
+	if [[ "$N" -eq 0 ]]; then
+		echo "Nenhum resultado para ${1^^}" 1>&2
+		exit 1
+	fi
 	
 	printf "Maiores:    \n"
 	grep -E "^[0-9]+" <<< "${RESULTS}" | sort -nr | head -n3
@@ -318,8 +322,10 @@ getmediaf() {
 	MAX="$(getnf <<< "${RESULTS}" | sort -n | tail -1)" 
 	printf "%.2f %%\n" "$(bc -l <<< "((${MAX}/${MIN})-1)*100")"
 
-	printf "Menores:\n"
-	grep -E "^[0-9]+" <<< "${RESULTS}" | sort -nr | tail -n3
+	if [[ "$N" -gt 3 ]]; then
+		printf "Menores:\n"
+		grep -E "^[0-9]+" <<< "${RESULTS}" | sort -nr | tail -n3
+	fi
 }
 
 #ticker bitverso
