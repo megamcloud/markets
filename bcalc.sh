@@ -1,6 +1,6 @@
 #!/bin/bash
 # bcalc.sh -- simple bash bc wrapper
-# v0.6.9  feb/2020  by mountaineerbr
+# v0.6.10  mar/2020  by mountaineerbr
 
 #defaults
 
@@ -54,7 +54,7 @@ DESCRIPTION
 	Press 'Ctr+D' to send the EOF signal, as in Bc. If no user EXPRESSION
 	was given so far, prints last entry in the record file.
 
-	EXPRESSIONS containing specials chars interpreted by your shell may need
+	EXPRESSIONS containing special chars interpreted by your shell may need
 	escaping.
 
 	The number of decimal plates (scale) of output floating point numbers is
@@ -64,8 +64,8 @@ DESCRIPTION
 	explicitly, trailing zeroes will be trimmed by a special Bc function be-
 	fore being printed to screen.
 
-	Remember that the decimal separator must be a dot '.'. Results with a
-	thousands separator can be obtained with option '-t', in which case a
+	Remember that the decimal separator must be a dot '.'. Results can be 
+	printed with a thousands separator setting option '-t', in which case a
 	comma ',' is used as thousands delimiter.
 
 
