@@ -1,6 +1,6 @@
 #!/bin/bash
 # WhaleAlert.sh -- whale-alert.io API Access
-# v0.1.8  feb/2020  by mountaineerbr
+# v0.1.9  apr/2020  by mountaineerbr
 
 
 # Your own key
@@ -9,11 +9,11 @@
 
 # Defaults
 # Minimum Tx value -- For the Free plan the minimum transaction value is USD 500000
-MVALUE="500000"
+MVALUE=500000
 # Max Tx history for Free plans is 3600 seconds
-STIME="59m"
+STIME=58m
 # Results limit per page -- max 100
-RESULTS="100"
+RESULTS=100
 
 HELP="NAME
 	WhaleAlert.sh -- whale-alert.io API Access
@@ -34,7 +34,7 @@ FREE ACCOUNT APIKEY AND LIMITS
 
 	Free accounts have some limitations:
 		Minimum transaction value: 500000 USD.
-		Maximum history time : 3599 seconds (~59 minutes).
+		Maximum history time : 3600 seconds (~60 minutes).
 		Maximum results per page: 100.
 	
 	Currently, this script fetches only the first page.
