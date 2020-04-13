@@ -12,6 +12,8 @@ Run the script with '-h' for a help page. Check below for script descriptions, d
 
 These bash scripts mostly need 'curl'. Some of them will work if you have got 'wget' instead, but not all of them. Other important packages are 'jq' and 'websocat' for some scripts.
 
+I cannot promise to follow up api changes and update these scripts once they start failing.  So I may just remove failing scripts or leave them broken..
+
 ---
 
 <b>SUMÁRIO</b>
@@ -19,6 +21,8 @@ These bash scripts mostly need 'curl'. Some of them will work if you have got 'w
 Este repo é relacionado com mercados de cripto, de moedas de banco centrais e ações. Rode os scripts com '-h' para uma página de ajuda.
 
 A maioria desses scripts de bash precisam do 'curl'. Alguns irão funcionar se você tiver somente o 'wget', mas não todos. Outros pacotes importantes para alguns scripts são 'jq' e 'websocat'.
+
+Não posso prometer acompanhar as alterações das APIs e atualizar esses scripts assim que começarem a falhar. Então, posso remover scripts com falha ou deixá-los quebrados..
 
 ---
 
