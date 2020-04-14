@@ -1,6 +1,6 @@
 #!/bin/bash
 # AlphaAvantage Stocks and Currency Rates (Most popular Yahoo Finance API alternative)
-# v0.3.8  feb/2020  by mountaineer_br
+# v0.3.9  apr/2020  by mountaineer_br
 
 # *YOUR* (free) API Private Key
 #ALPHAAPIKEY=""
@@ -155,7 +155,7 @@ searchf() {
 		#check if stdout is open and trim column NAME
 		[[ -t 1 ]] && TRIMCOL='-TNAME,REGION'
 		#process data and make table
-		jq -r '.bestMatches[]|
+		jq -r '.bestMatches|reverse[]|
 			"\(."1. symbol"),\(."2. name"),\(."3. type"),\(."4. region"),\(."5. marketOpen"),\(."6. marketClose"),\(."7. timezone"),\(."8. currency"),\(."9. matchScore")"' <<<"${DATA}" | column -et -s',' -NSYMBOL,NAME,TYPE,REGION,MOPEN,MCLOSE,TZ,CUR,SCORE ${TRIMCOL} 
 	elif grep -qi 'standard API call frequency is .* calls per minute and .* calls per day' <<<"${DATA}"; then
 		printf 'Error: %s\n' "$(jq -r '.Note' <<<"${DATA}")" 1>&2
