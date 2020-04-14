@@ -1,6 +1,6 @@
 #!/bin/bash
 # bcalc.sh -- simple bash bc wrapper
-# v0.6.10  mar/2020  by mountaineerbr
+# v0.6.11  apr/2020  by mountaineerbr
 
 #defaults
 
@@ -8,7 +8,8 @@
 BCREC=1
 
 #special variable that holds last entry in the record file
-HOLD=res  #ans
+#HOLD=res
+HOLD='(res|ans)'
 
 #record file path
 RECFILE="${HOME}/.bcalc_record"
@@ -120,8 +121,9 @@ BASH ALIASES
 
 
 WARRANTY
-	Made and tested with Bash 5. This programme is distributed without
-	support or bug corrections. Licensed under GPLv3 and above.
+	This programme is distributed without support or bug corrections. Li-
+	censed under GPLv3 and above. Made and tested with Bash 5 and the GNU
+	suite of core tools.
 
 	If useful, consider giving me a nickle! =)
 
@@ -330,9 +332,10 @@ if [[ -n "${BCREC}" ]]; then
 	fi
 	
 	#swap '$HOLD' by last entry in history, or use last entry if no input
-	if [[ "${EQ}" =~ "${HOLD}" ]] || [[ -z "${EQ}" ]]; then
+	if [[ "${EQ}" =~ ${HOLD} ]] || [[ -z "${EQ}" ]]; then
 		LASTRES=$(tail -1 "${RECFILE}")
-		EQ="${EQ//${HOLD}/${LASTRES}}"
+		#EQ="${EQ//${HOLD}/${LASTRES}}"
+		EQ="$(sed -E "s/$HOLD/${LASTRES}/g" <<<"$EQ")"
 		EQ="${EQ:-${LASTRES}}"
 	fi
 #some error handling
