@@ -1,6 +1,6 @@
 #!/bin/bash
 # cgk.sh -- coingecko.com api access
-# v0.10.46  apr/2020  by mountaineerbr
+# v0.10.47  apr/2020  by mountaineerbr
 
 #defaults
 
@@ -221,8 +221,8 @@ mcapf() {
 
 		printf 'Symbol\tDominance%%\n'
 		jq -r '.data.market_cap_percentage|to_entries[] | [.key, .value] | @tsv' <<< "${CGKGLOBAL}"
-		total="$(jq -r '.data.market_cap_percentage[]' <<< "${CGKGLOBAL}" | paste -sd+ | bc -l)"
-		printf 'Sum:\t%.13f\n' "${total}"
+		totale=($(jq -r '.data.market_cap_percentage[]' <<< "${CGKGLOBAL}"))
+		printf 'Sum:\t%.13f\n' "$(bc -l <<<"${totale[@]/%/+}0")"
 		exit
 	fi
 	#DOMINANCEARRAY=($(jq -r '.data.market_cap_percentage | keys_unsorted[]' <<< "${CGKGLOBAL}"))
