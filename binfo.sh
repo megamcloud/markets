@@ -1,6 +1,6 @@
 #!/bin/bash
 # binfo.sh -- bitcoin blockchain explorer for bash
-# v0.7.12  apr/2020  by mountaineerbr
+# v0.7.13  apr/2020  by mountaineerbr
 
 #defaults
 
@@ -316,7 +316,7 @@ chairblkinfof() {
 		"",
 		"Blockchain",
 		(.data|
-			"Nodes__: \(.nodes)\tBlocks: \(.blocks)",
+			"Height_: \(.blocks)  Nodes: \(.nodes)",
 			"Size___: \(.blockchain_size) bytes",
 			"         \(.blockchain_size/1000000000) GB",
 			"Diff___: \(.difficulty)",
