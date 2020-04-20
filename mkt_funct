@@ -630,6 +630,7 @@ brentw() { curl -sL 'https://datahub.io/core/oil-prices/r/1.json' | jq -r '.[]|"
 brentm() { curl -sL 'https://datahub.io/core/oil-prices/r/2.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 #oil annual brent 
 brenta() { curl -sL 'https://datahub.io/core/oil-prices/r/3.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
+alias brenty=brenta
 
 #oil daily wti 
 wti() { curl -sL 'https://datahub.io/core/oil-prices/r/4.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
@@ -639,6 +640,7 @@ wtiw() { curl -sL 'https://datahub.io/core/oil-prices/r/5.json' | jq -r '.[]|"\(
 wtim() { curl -sL 'https://datahub.io/core/oil-prices/r/6.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
 #oil annual wti 
 wtia() { curl -sL 'https://datahub.io/core/oil-prices/r/7.json' | jq -r '.[]|"\(.Date)\t\(.Price)"';}
+alias wtiy=wtia
 
 #gas monthly
 gas() { curl -sL 'https://datahub.io/core/natural-gas/r/1.json' | jq -r '.[]|"\(.Month)\t\(.Price)"';}
