@@ -1,6 +1,6 @@
 #!/bin/bash
 # Binance.sh  --  Market rates from Binance public APIs
-# v0.9.16  apr/2020  by mountaineerbr
+# v0.9.17  apr/2020  by mountaineerbr
 
 #defaults
 
@@ -91,18 +91,13 @@ WARRANTY
 
 
 BUGS
-	Beware of unlimited scrollback buffers for terminal emulators. As lots
-	of data is printed, scrollback buffers should be kept small or complete-
-	ly unset in order to avoid system freezes.
+	Beware of unlimited scrollback buffers of your terminal emulator. As
+	a lot of data is printed, scrollback buffers should be kept small or 
+	completely unset in order to avoid system freezes due to memory usage.
 
 
 USAGE EXAMPLES
-		(1) 	One Bitcoin in Tether:
-			
-			$ binance.sh btc usdt
-
-
-			Same using <binance.com> rates:
+		(1) 	One Bitcoin in Tether using <binance.com> rates:
 			
 			$ binance.sh -u btc usdt
 
@@ -145,10 +140,36 @@ USAGE EXAMPLES
 
 
 OPTIONS
+	Formatting results
 	-NUM 	   Shortcut for simple decimal setting, same as '-fNUM'.
 
-	-a 	   Autoreconnect for websocat options; defaults=unset.
+	-f  [NUM|STR]
+		   Number of decimal plates 'NUM' or printf-like formatting of
+		   prices 'STR'; for use with options '-csw'; maximum precision
+		   is 16 decimal plates; defaults=%s (same as received).
+	
+	-ff [NUM]  Add a thousands separator to results and optionally also 
+		   set number of decimal plates.
 
+	Miscellaneous
+	-a 	   Autoreconnect in case of temporary errors for websocat 
+		   connection; defaults=unset.
+
+	-d 	   Some debugging info.
+	
+	-h 	   Show this help.
+	
+	-j 	   Use <binance.je> server; defaults=<binance.com>.
+	
+	-l 	   List supported markets.
+	
+	-r 	   Use curl/wget instead of websocat with options '-swi'.
+	
+	-u 	   Use <binance.us> server; defaults=<binance.com>.
+	
+	-v 	   Print script version.
+
+	Trade/price queries
 	-b  [LEVELS] 'MKT'   
 		   Order book depth; valid limits 5, 10 and 20; defaults=20.
 	
@@ -160,36 +181,13 @@ OPTIONS
 		   Price in columns; optionally, limit number of orders fetched
 		   at a time; max=1000; defaults=250.
 
-	-d 	   Some debugging info.
-
-	-f  [NUM|STR]
-		   Number of decimal plates 'NUM' or printf-like formatting of
-		   prices 'STR'; for use with options '-csw'; maximum precision
-		   is 16 decimal plates; defaults=%s (same as received).
-	
-	-ff [NUM]  
-		   Add a thousands separator and optinally also set decimal 
-		   plate number.
-
-	-h 	   Show this help.
-
 	-i  'MKT'  Detailed information of the trade stream.
-	
-	-j 	   Use <binance.je> server; defaults=<binance.com>.
-
-	-l 	   List supported markets.
-	
-	-r 	   Use curl/wget instead of websocat with options '-swi'.
-
-	-s  'MKT'  Stream of latest trades.
 	
 	-t  'MKT'  Rolling 24h ticker.
 
-	-u 	   Use <binance.us> server; defaults=<binance.com>.
-		   
-	-v 	   Print script version.
+	-s  'MKT'  Stream of latest trades.
 	
-	-w 	   Coloured stream of latest trades, requires lolcat."
+	-w  'MKT'  Coloured stream of latest trades, requires lolcat."
 
 #functions
 
@@ -318,7 +316,6 @@ bookdf() {
 		)'
 	printf '\n'
 }
-#"\tPRICE    \tQTY",
 
 #-bb order book total sizes
 booktf() {
@@ -570,10 +567,6 @@ if ! grep -qi "^${2}${3}$" <<< "${MARKETS}"; then
 	fi
 
 	exit 1
-#print reminder message that the script needed to help
-#user input to form a market pair
-#elif [[ -n "${USERIN}" ]]; then
-#	printf 'Autoset: %s%s\n' "${2^^}" "${3^^}" 1>&2
 fi
 
 #call opt functions
@@ -602,6 +595,6 @@ else
 	BRATE=$("${YOURAPP[@]}" "https://api.binance.${WHICHB}/api/v3/ticker/price?symbol=${2^^}${3^^}" | jq -r ".price")
 
 	#calc and printf results
-	bc -l <<< "(${1})*${BRATE}" | xargs printf "${FSTR}\n"
+	printf "${FSTR}\n" "$(bc -l <<< "(${1})*${BRATE}")"
 fi
 
