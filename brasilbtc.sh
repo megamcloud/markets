@@ -1,6 +1,6 @@
 #!/bin/bash
 # Brasilbtc.sh -- Puxa Taxas de Bitcoin de Exchanges do Brasil
-# v0.6.3  apr/2020  by mountaineerbr
+# v0.6.4  apr/2020  by mountaineerbr
 
 #defaults
 
@@ -397,6 +397,18 @@ fi
 if [[ -z "${1}" ]]; then
 	noarg=1
 	set -- btc
+else
+	case "${*,,}" in
+		(bitcoin) set -- btc;;
+		(bitcorn) set -- btc;;
+		(ethereum|ether) set -- eth;;
+		(shitcoin) set -- eth;;
+		(litecoin) set -- ltc;;
+		(monero) set -- xmr;;
+		(bitcoin\ cash) set -- bch;;
+		(tether) set -- usdt;;
+		(binance|binance\ coin) set -- bnb;;
+	esac
 fi
 
 # Debug option
