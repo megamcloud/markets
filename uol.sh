@@ -1,6 +1,6 @@
 #!/bin/bash
 # Uol.sh -- Puxa cotações do portal do UOL
-# v0.2.9  apr/2020  by mountaineer_br
+# v0.2.10  apr/2020  by mountaineer_br
 
 #defaults
 #column separator for the '-a' opt
@@ -188,6 +188,7 @@ b3f() {
 				"Pontos : \(.price)"'<<<"${UOLB3}" | sed -E 's/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/\1-\2-\3T\4:\5:\6/'
 		#série intraday
 		else
+			[[ ! -t 1 ]] && printf 'UOL - Bovespa B3\n' 1>&2
 			printf 'UOL - Bovespa B3\n'
 			jq -r '.docs|reverse[]|"\(.price)\t\(.high)\t\(.low)\t\(.open)\t\(.close)\t\(.change)\t\(.pctChange)%\t\(.date)"'<<<"${UOLB3}" | sed -E 's/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/\1-\2-\3T\4:\5:\6/' | column -ets$'\t' -NPONTOS,ALTA,BAIXA,ABERT,FECHA,VAR,VAR%,DATA
 		fi
@@ -200,6 +201,7 @@ b3f() {
 			exit
 		fi
 		
+		[[ ! -t 1 ]] && printf 'UOL - Bovespa B3\n' 1>&2
 		printf 'UOL - Bovespa B3\n'
 		jq -r '.docs|reverse[]|"\(.price)\t\(.high)\t\(.low)\t\(.open)\t\(.close)\t\(.change)\t\(.pctChange)%\t\(.date)"'<<<"${UOLB3}" | sed -E 's/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/\1-\2-\3T\4:\5:\6/' | column -ets$'\t' -NPONTOS,ALTA,BAIXA,ABERT,FECHA,VAR,VAR%,DATA
 	fi
@@ -253,9 +255,11 @@ dolarf() {
 
 		#intraday
 		else
+			[[ ! -t 1 ]] && printf 'UOL - Dólar Turismo\n' 1>&2
 			printf 'UOL - Dólar Turismo\n'
 				tablef <<< "${DT}"
-		
+
+			[[ ! -t 1 ]] && printf '\nUOL - Dólar Comercial\n' 1>&2
 			printf '\nUOL - Dólar Comercial\n'
 				tablef <<< "${DC}"
 		fi
@@ -271,10 +275,11 @@ dolarf() {
 			printf "%s\n" "${DC}"
 			exit
 		fi
-
+		[[ ! -t 1 ]] && printf 'UOL - Dólar Turismo\n' 1>&2
 		printf 'UOL - Dólar Turismo\n'
 		tablef <<< "${DT}"
-	
+
+		[[ ! -t 1 ]] && printf '\nUOL - Dólar Comercial\n' 1>&2
 		printf '\nUOL - Dólar Comercial\n'
 		tablef <<< "${DC}"
 	fi
