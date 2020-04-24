@@ -13,7 +13,7 @@
 blist() {
 	#user input
 	if [[ -n "${*}" ]]; then
-		set -- $(tr '[[:lower:]]' '[[:upper:]]' <<<"${*}")
+		set -- $(tr '[:lower:]' '[:upper:]' <<<"${*}")
 	#or defaults
 	else
 		printf 'uso: %s [LETRA|NUM]\n\n' "${0}" 1>&2
@@ -47,7 +47,7 @@ tesouro() {
 
 
 #ibge inflação brasileira IPCA - Variação mensal
-ipcab() { (
+ipcab() (
 	[[ -z "${*}" ]] && printf 'uso: %s  ANO/MES  #ANO/MES >= 1980/01\n\n' "${0}" 1>&2
 
 	#testar input do usuário, ano maior que 1980
@@ -70,13 +70,13 @@ ipcab() { (
 		printf "%s%% %'.2f%% %.6f\n" "${line}" "${tvalp}" "${tval}"
 	done | column -ets' ' -NMes,Ano,Var%Mes,Acu%Total,Fator -OAno,Mes,Var%Mes,Acu%Total,Fator -RVar%Mes,Acu%Total,Fator
 
-);}
+)
 #calculadora: https://www3.bcb.gov.br/CALCIDADAO/publico/corrigirPorIndice.do?method=corrigirPorIndice
 
 
 #ibge inflação brasileira IPCA - Variação acumulada no ano
 #uso: %s [ANO]  #ANO>=1980 e calcula de jan/ANO a DEZ/ANO_ATUAL-1 
-ipcab2() { (
+ipcab2() (
 	[[ -z "${*}" ]] && printf 'uso: %s ANO  #ANO >= 1980\n\n' "${0}" 1>&2
 
 	#testar input do usuário, ano maior que 1980
@@ -94,7 +94,7 @@ ipcab2() { (
 
 	printf '\nPeríodo %s/jan - %s/dez\n' "${year}" "${yearend}"
 	
-	printf 'dezembro %s\n' {${year}..${yearend}} |
+	eval printf 'dezembro %s\n' {${year}..${yearend}} |
 	while read line; do
 		val="$(jq -r '.[]|select( .p == "'${line}'")|.v' <<<"${data}")"
 		tval="$(bc -l <<<"(1+ (${val}/100) ) * ${tval:-1}")"
@@ -103,7 +103,7 @@ ipcab2() { (
 		printf "%s dez %s%% %'.2f%% %.6f\n" "${year}" "${val}" "${tvalp}" "${tval}"
 		((year++))
 	done | column -ets' ' -NAno,Mes,Ac%Ano,Acu%Total,Fator -RAc%Ano,Acu%Total,Fator 
-);}	
+)	
 #orig:199512,199612,199712,199812,199912,200012,200112,200212,200312,200412,200512,200612,200712,200812,200912,201012,201112,201212,201312,201412,201512,201612,201712,201812,201912,202012,202112,202212,202312,202412,202512,202612,202712,202812,202912,203012,202001
 #https://www.ibge.gov.br/estatisticas/economicas/precos-e-custos/9256-indice-nacional-de-precos-ao-consumidor-amplo.html?t=series-historicas&utm_source=landing&utm_medium=explica&utm_campaign=inflacao#plano-real-mes
 
@@ -117,7 +117,7 @@ nomef() {
 		jq -r '.[]|"Localidade: \(.localidade)"' <<<"${json}"
 		jq -r '.[]|.res[]|"\(.nome)\t\(.frequencia)\t\(.ranking)"' <<<"${json}"| column -et -NNOME,FREQ,RNK
 	else
-		set -- "$(tr '[A-Z]' '[a-z]' <<<"${1}")"
+		set -- "$(tr 'A-Z' 'a-z' <<<"${1}")"
 		json="$(curl -s "https://servicodados.ibge.gov.br/api/v2/censos/nomes/${1}")"
 		jq -r '.[]|"Local: \(.localidade)","Nome_: \(.nome)"' <<<"${json}"
 		jq -r '.[].res[]|"\(.periodo)\t\(.frequencia)"' <<<"${json}"| tr -d '][' | tr ',' '-' | column -et -NPERIODO,FREQ
@@ -242,7 +242,7 @@ kitco() {
 
 	#set columns
 	local colconf
-	((${COLUMNS}<102)) && colconf=(-TTIME -HUNIT,CUR)
+	((COLUMNS<102)) && colconf=(-TTIME -HUNIT,CUR)
 	
 	#ny spot
 	printf 'New York Spot Price\n'
@@ -329,7 +329,7 @@ gfin() {
 
 
 #yahoo finance hack -- long ticker
-yfin() { (
+yfin() (
 	#parse some opts
 	if [[ "${1}" = -h ]]; then
 		printf 'usage: %s [-jh] \"symbol\"\n' "${0}"
@@ -441,7 +441,7 @@ yfin() { (
 		"Open___: \(.regularMarketOpen)",
 		"Price__: \(.regularMarketPrice)"
 		' <<<"${YJSON}" | grep -Fv 'null' | cat -s
-);}
+)
 #currency
 #language
 #triggerable
@@ -456,7 +456,7 @@ yfin() { (
 
 #yahoo finance hack -- data from chart api
 #usage: yfin2 [-jh] 'symbol' [range] [granularity]
-yfin2() { (
+yfin2() (
 	#parse some opts
 	if [[ "${1}" = -h ]]; then
 		printf 'usage: %s [-jh] \"symbol\" [range] [granularity]\n' "${0}"
@@ -467,7 +467,7 @@ yfin2() { (
 	fi
 	
 	#set symbol to uppercase (POSIX-compatible)
-	SYMBOL="$(tr '[:lower:]' '[:upper:]' <<<${1:-TSLA})"
+	SYMBOL="$(tr '[:lower:]' '[:upper:]' <<<"${1:-TSLA}")"
 
 	#get json
 	YJSON="$(curl -s "https://query1.finance.yahoo.com/v8/finance/chart/${SYMBOL}?region=US&lang=en-US&includePrePost=true&interval=${2:-1d}&range=${3:-1d}&corsDomain=finance.yahoo.com&.tsrc=finance" --compressed)"
@@ -541,7 +541,7 @@ yfin2() { (
 			#"PriceHnt: \(.priceHint//empty)"
 		)
 		' <<<"${YJSON}"
-);}
+)
 
 
 #yahoo finance symbol list
